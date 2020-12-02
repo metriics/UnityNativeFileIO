@@ -34,14 +34,14 @@ PLUGIN_API bool ReadLines() {
 	return dm.ReadLines();
 }
 
-PLUGIN_API int FindNextLine(std::string fileString, int prevNewline) {
-	return dm.FindNextLine(fileString, prevNewline);
-}
-
 PLUGIN_API int GetNumLines() {
 	return dm.GetNumLines();
 }
 
 PLUGIN_API const char* GetLine(int index) {
 	return dm.GetLine(index);
+}
+
+PLUGIN_API void Sterilize() {
+	return dm.Sterilize();
 }

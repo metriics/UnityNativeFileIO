@@ -19,11 +19,14 @@ public:
 	// reading
 	bool ReadFile();
 	bool ReadLines();
-	int FindNextLine(std::string fileString, int prevNewline);
 	int GetNumLines();
 	const char* GetLine(int index);
 
+	// management
+	void Sterilize();
+
 private:
+	int FindNextLine(std::string fileString, int prevNewline);
 	int GetLineLength(int prevNewline, int curNewline);
 
 	std::string currentLine;

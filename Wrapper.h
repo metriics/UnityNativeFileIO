@@ -20,9 +20,11 @@ extern "C" {
 	// reading
 	PLUGIN_API bool ReadFile();
 	PLUGIN_API bool ReadLines();
-	PLUGIN_API int FindNextLine(std::string fileString, int prevNewline);
 	PLUGIN_API int GetNumLines();
 	PLUGIN_API const char* GetLine(int index);
+
+	// management
+	PLUGIN_API void Sterilize();
 
 #ifdef __cplusplus
 }

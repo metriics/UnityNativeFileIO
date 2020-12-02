@@ -162,6 +162,13 @@ const char* DataMoverTM::GetLine(int index) {
 	return cstr;
 }
 
+void DataMoverTM::Sterilize() {
+	currentLine = std::string();
+	currentFile = std::string();
+
+	lines = std::vector<std::string>();
+}
+
 int DataMoverTM::GetLineLength(int prevNewline, int curNewline) {
 	if (prevNewline == -1) {
 		return curNewline;
