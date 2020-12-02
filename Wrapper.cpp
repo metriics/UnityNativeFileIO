@@ -1,55 +1,47 @@
 #include "Wrapper.h"
 
-StatsManager manager;
+DataMoverTM dm;
 
-PLUGIN_API void AddAttack(bool didHit) {
-	return manager.AddAttack(didHit);
+PLUGIN_API void SetType(int type) {
+	return dm.SetType(type);
 }
 
-PLUGIN_API void AddJump() {
-	return manager.AddJump();
+PLUGIN_API void AddIntData(int data) {
+	return dm.AddIntData(data);
 }
 
-PLUGIN_API void AddDash() {
-	return manager.AddDash();
+PLUGIN_API void AddFloatData(float data) {
+	return dm.AddFloatData(data);
 }
 
-PLUGIN_API int GetAttacksHit() {
-	return manager.GetAttacksHit();
+PLUGIN_API void AddStringData(const char* data) {
+	return dm.AddStringData(data);
 }
 
-PLUGIN_API int GetAttacksMissed() {
-	return manager.GetAttacksMissed();
+PLUGIN_API void AppendLine() {
+	return dm.AppendLine();
 }
 
-PLUGIN_API int GetTotalAttacks() {
-	return manager.GetTotalAttacks();
+PLUGIN_API bool WriteFile() {
+	return dm.WriteFile();
 }
 
-PLUGIN_API int GetTimesJumped() {
-	return manager.GetTimesJumped();
+PLUGIN_API bool ReadFile() {
+	return dm.ReadFile();
 }
 
-PLUGIN_API int GetTimesDashed() {
-	return manager.GetTimesDashed();
+PLUGIN_API bool ReadLines() {
+	return dm.ReadLines();
 }
 
-PLUGIN_API bool Load() {
-	return manager.Load();
+PLUGIN_API int FindNextLine(std::string fileString, int prevNewline) {
+	return dm.FindNextLine(fileString, prevNewline);
 }
 
-PLUGIN_API bool Overwrite() {
-	return manager.Overwrite();
+PLUGIN_API int GetNumLines() {
+	return dm.GetNumLines();
 }
 
-PLUGIN_API bool Append() {
-	return manager.Append();
-}
-
-PLUGIN_API bool Erase() {
-	return manager.Erase();
-}
-
-PLUGIN_API bool ClearCurrent() {
-	return manager.ClearCurrent();
+PLUGIN_API const char* GetLine(int index) {
+	return dm.GetLine(index);
 }

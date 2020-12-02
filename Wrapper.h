@@ -3,33 +3,26 @@
 #define __WRAPPER__
 
 #include "PluginSettings.h"
-#include "StatsManager.h"
+#include "DataMoverTM.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-	// my functions here
-	// 'setters'
-	PLUGIN_API void AddAttack(bool didHit);
-	PLUGIN_API void AddJump();
-	PLUGIN_API void AddDash();
+	// writing
+	PLUGIN_API void SetType(int type);
+	PLUGIN_API void AddIntData(int data);
+	PLUGIN_API void AddFloatData(float data);
+	PLUGIN_API void AddStringData(const char* data);
+	PLUGIN_API void AppendLine();
+	PLUGIN_API bool WriteFile();
 
-	// getters
-	PLUGIN_API int GetAttacksHit();
-	PLUGIN_API int GetAttacksMissed();
-	PLUGIN_API int GetTotalAttacks();
-	PLUGIN_API int GetTimesJumped();
-	PLUGIN_API int GetTimesDashed();
-
-	// file operations
-	PLUGIN_API bool Load();
-	PLUGIN_API bool Overwrite();
-	PLUGIN_API bool Append();
-	PLUGIN_API bool Erase();
-
-	// application operations
-	PLUGIN_API bool ClearCurrent();
+	// reading
+	PLUGIN_API bool ReadFile();
+	PLUGIN_API bool ReadLines();
+	PLUGIN_API int FindNextLine(std::string fileString, int prevNewline);
+	PLUGIN_API int GetNumLines();
+	PLUGIN_API const char* GetLine(int index);
 
 #ifdef __cplusplus
 }

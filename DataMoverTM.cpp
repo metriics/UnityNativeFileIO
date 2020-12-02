@@ -17,7 +17,7 @@ void DataMoverTM::SetType(int type) {
 /// Make sure to set the line type first.
 /// </summary>
 /// <param name="data"></param>
-void DataMoverTM::AddData(int data) {
+void DataMoverTM::AddIntData(int data) {
 	currentLine += (separator + std::to_string(data));
 }
 
@@ -26,7 +26,7 @@ void DataMoverTM::AddData(int data) {
 /// Make sure to set the line type first.
 /// </summary>
 /// <param name="data"></param>
-void DataMoverTM::AddData(float data) {
+void DataMoverTM::AddFloatData(float data) {
 	currentLine += (separator + std::to_string(data));
 }
 
@@ -35,7 +35,7 @@ void DataMoverTM::AddData(float data) {
 /// Make sure to set the line type first.
 /// </summary>
 /// <param name="data"></param>
-void DataMoverTM::AddData(std::string data) {
+void DataMoverTM::AddStringData(const char* data) {
 	currentLine += (separator + data);
 }
 
@@ -44,11 +44,11 @@ void DataMoverTM::AddData(std::string data) {
 /// It will ignore empty lines.
 /// </summary>
 void DataMoverTM::AppendLine() {
-	if (currentLine == "" || currentLine == " " || currentLine == "\n" || currentLine == "\r\n" || currentLine == separator) {
+	if (currentLine == "" || currentLine == " " || currentLine == "'\n'" || currentLine == "'\r\n'" || currentLine == separator) {
 		return;
 	}
 	else {
-		currentFile += (currentLine + "\n");
+		currentFile += (currentLine + '\n');
 	}
 }
 
@@ -74,7 +74,7 @@ bool DataMoverTM::WriteFile() {
 bool DataMoverTM::ReadFile() {
 	std::ifstream in(fileName);
 	if (in) {
-		in >> currentFile;
+		currentFile = std::string((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
 		in.close();
 	}
 	else {
@@ -88,7 +88,60 @@ bool DataMoverTM::ReadFile() {
 /// </summary>
 /// <returns></returns>
 bool DataMoverTM::ReadLines() {
-	return false;
+	// find all newline indices
+	bool allNewlinesFound = false;
+	std::vector<int> newlineIndices = { -1 };
+	int prevNewline = -1;
+
+	while (!allNewlinesFound) {
+		int curNewline = FindNextLine(currentFile, prevNewline);
+		if (curNewline == -1) {
+			allNewlinesFound = true;
+		}
+		else {
+			newlineIndices.push_back(curNewline);
+			prevNewline = curNewline;
+		}
+	}
+
+	// store all lines stripped of newline characters
+	for (int i = 0; i < newlineIndices.size(); i++) {
+		std::string curLine;
+		if (i == newlineIndices.size() - 1) { // last newline
+			curLine = "";
+		}
+		else {
+			if (i == newlineIndices.size() - 1) {
+				curLine = currentFile.substr(newlineIndices[i] + 1, std::string::npos);
+			}
+			else {
+				int lineLen = GetLineLength(newlineIndices[i], newlineIndices[i + 1]);
+				curLine = currentFile.substr(newlineIndices[i] + 1, lineLen);
+			}
+		}
+		lines.push_back(curLine);
+	}
+
+	return true;
+}
+
+/// <summary>
+/// Returns the position of the next newline character in the string.
+/// Works with \n and \r\n
+/// </summary>
+/// <returns></returns>
+int DataMoverTM::FindNextLine(std::string fileString, int startAt) {
+	// UNIX newline
+	if (fileString.find('\n', startAt + 1) != -1) {
+		return fileString.find('\n', startAt + 1);
+	}
+	// DOS newline
+	else if (fileString.find('\r\n', startAt + 1) != -1) {
+		return fileString.find('\r\n', startAt + 1);
+	}
+
+	// if we find nothing, return -1
+	return -1;
 }
 
 /// <summary>
@@ -97,9 +150,23 @@ bool DataMoverTM::ReadLines() {
 /// </summary>
 /// <returns></returns>
 int DataMoverTM::GetNumLines() {
-	return 0;
+	return lines.size();
 }
 
-std::string DataMoverTM::GetLine(int index) {
-	return std::string();
+const char* DataMoverTM::GetLine(int index) {
+	if (index >= lines.size()) {
+		return std::string("").c_str();
+	}
+
+	const char* cstr = lines.at(index).c_str();
+	return cstr;
+}
+
+int DataMoverTM::GetLineLength(int prevNewline, int curNewline) {
+	if (prevNewline == -1) {
+		return curNewline;
+	}
+	else {
+		return (curNewline - prevNewline - 1);
+	}
 }
