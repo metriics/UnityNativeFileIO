@@ -3,7 +3,7 @@
 
 int main()
 {
-	using namespace std;
+	/*using namespace std;
 	DataMoverTM dm;
 
 	dm.SetType(-1);
@@ -45,5 +45,5 @@ int main()
 		cout << "error writing file" << endl;
 	}
 
-	cout << "eop" << endl;
+	cout << "eop" << endl;*/
 }

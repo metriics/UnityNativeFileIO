@@ -153,6 +153,11 @@ int DataMoverTM::GetNumLines() {
 	return lines.size();
 }
 
+/// <summary>
+/// Passes a line as c_str to Unity
+/// </summary>
+/// <param name="index"></param>
+/// <returns></returns>
 const char* DataMoverTM::GetLine(int index) {
 	if (index >= lines.size()) {
 		return std::string("").c_str();
@@ -162,6 +167,9 @@ const char* DataMoverTM::GetLine(int index) {
 	return cstr;
 }
 
+/// <summary>
+/// Clears all variables
+/// </summary>
 void DataMoverTM::Sterilize() {
 	currentLine = std::string();
 	currentFile = std::string();
@@ -169,6 +177,12 @@ void DataMoverTM::Sterilize() {
 	lines = std::vector<std::string>();
 }
 
+/// <summary>
+/// Gets length of the line without the newline character
+/// </summary>
+/// <param name="prevNewline"></param>
+/// <param name="curNewline"></param>
+/// <returns></returns>
 int DataMoverTM::GetLineLength(int prevNewline, int curNewline) {
 	if (prevNewline == -1) {
 		return curNewline;
