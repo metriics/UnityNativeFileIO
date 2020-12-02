@@ -139,11 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataMoverTM.cpp" />
+    <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="StatsManager.cpp" />
     <ClCompile Include="Wrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataMoverTM.h" />
+    <ClInclude Include="LevelManager.h" />
     <ClInclude Include="PluginSettings.h" />
     <ClInclude Include="StatsManager.h" />
     <ClInclude Include="Wrapper.h" />
